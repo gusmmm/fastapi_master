@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 from fast_zero.database import Base, engine, get_db
 from fast_zero.models import Doente
-from fast_zero.schemas import DoentePublic, DoenteSchema, Message
+from fast_zero.schemas import DoentePublic, DoenteSchema, DoenteList, Message
 
 
 @asynccontextmanager
@@ -45,3 +45,8 @@ def create_doente(doente: DoenteSchema, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(obj)
     return obj
+
+@app.get('/doentes/', response_model=DoenteList)
+def read_doentes(db: Session = Depends(get_db)):
+    doentes = db.query(Doente).all()
+    return DoenteList(doentes=doentes)

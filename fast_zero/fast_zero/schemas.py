@@ -21,3 +21,6 @@ class DoentePublic(BaseModel):
 
     # allow creating from SQLAlchemy model instances
     model_config = ConfigDict(from_attributes=True)
+
+class DoenteList(BaseModel):
+    doentes: list[DoentePublic]
